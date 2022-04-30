@@ -1,5 +1,5 @@
 # This file was taken from RSS tasks 2019Q3
-
+package-lock.json
 # Logs
 logs
 *.log
@@ -37,3 +37,5 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+package-lock.json
+.gitignore
