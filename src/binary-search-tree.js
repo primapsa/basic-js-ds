@@ -65,23 +65,6 @@ class BinarySearchTree {
     }
     return search;
   }
-  print(node, acc) {
-    if (node == null) {
-      return acc;
-    } else {
-      if (node.left != null) {
-        acc = this.print(node.left, acc);
-      }
-      acc.push(node.data);
-      if (node.right != null) {
-        acc = this.print(node.right, acc);
-      }
-      return acc;
-    }
-  }
-  printInOrder() {
-    return this.print(this.tree, []);
-  }
 
   find(data) {
     if (!data) return null;
@@ -105,43 +88,62 @@ class BinarySearchTree {
     return search;
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+  remove(data) {
+    if (!data) return;
+
+    this.tree = deleteNode(this.tree, data);
+
+    function deleteNode(node, value) {
+      if (!node) return null;
+
+      if (!node.left && !node.right && node.data == value) {
+        return null;
+      }
+      if (node.data < value) {
+        node.right = deleteNode(node.right, value);
+        return node;
+      }
+      if (node.data > value) {
+        node.left = deleteNode(node.left, value);
+        return node;
+      }
+      if (node.left && !node.right && node.data == value) {
+        node = node.left;
+        return node;
+      }
+      if (!node.left && node.right && node.data == value) {
+        node = node.right;
+        return node;
+      }
+
+      let bothChilds = node.right;
+      while (bothChilds.left) {
+        bothChilds = bothChilds.left;
+      }
+      node.data = bothChilds.data;
+      node.right = deleteNode(node.right, bothChilds.data);
+
+      return node;
+    }
   }
 
   min() {
     let minimal = this.tree;
-    while(minimal.left){     
-      minimal = minimal.left
-    }    
-    console.log(minimal)
+    while (minimal.left) {
+      minimal = minimal.left;
+    }
+    console.log(minimal);
     return minimal?.data || null;
   }
 
   max() {
-   let maximal = this.tree;
-   while(maximal.right){
-     maximal = maximal.right
-   }
-   return maximal?.data || null;
+    let maximal = this.tree;
+    while (maximal.right) {
+      maximal = maximal.right;
+    }
+    return maximal?.data || null;
   }
 }
-// let bstq = new BinarySearchTree();
-// bstq.add(10);
-// bstq.add(7);
-// bstq.add(15);
-// bstq.add(13);
-// bstq.add(18);
-// bstq.add(20);
-// //bstq.printInOrder();
-// console.log(bstq.printInOrder());
-// //console.log(bstq.has(20));
-// //console.log(bstq.root().data);
-// console.log(bstq.min());
-// console.log(bstq.max());
-// bst.add(10);
-//console.log(bstq)
 module.exports = {
   BinarySearchTree,
 };
